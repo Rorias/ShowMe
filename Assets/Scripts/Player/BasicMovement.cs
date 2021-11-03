@@ -132,13 +132,13 @@ public class BasicMovement : MonoBehaviour
         if (grounded && !dashing && !dashed)
         {
             dashing = true;
-            moveSpeed *= 3f;
+            moveSpeed *= 2f;
         }
         else if (!grounded && !dashing && !airDashed)
         {
             dashing = true;
             airDashed = true;
-            moveSpeed *= 4f;
+            moveSpeed *= 3f;
         }
     }
 
