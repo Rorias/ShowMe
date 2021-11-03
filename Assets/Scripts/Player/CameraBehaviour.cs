@@ -30,7 +30,7 @@ public class CameraBehaviour : MonoBehaviour
     {
         if (!followPlayer)
         {
-            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 9, 0.01f);
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 9, 0.05f / (9 - Camera.main.orthographicSize));
             Camera.main.transform.position = Vector3.Lerp(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -10), new Vector3(0, 0, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(0, 0, -10)));
 
             if (Camera.main.orthographicSize >= 8.9f)
@@ -45,7 +45,7 @@ public class CameraBehaviour : MonoBehaviour
             pos.x = Mathf.Clamp(pos.x, leftBound, rightBound);
             pos.y = Mathf.Clamp(pos.y, bottomBound, topBound);
 
-            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 4.5f, 0.01f);
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 4.5f, 0.05f / (Camera.main.orthographicSize - 4.5f));
             Camera.main.transform.position = Vector3.Lerp(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -10), new Vector3(pos.x, pos.y, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(pos.x, pos.y, -10)));
 
             if (Camera.main.orthographicSize <= 4.6f)
