@@ -12,7 +12,7 @@ public class CameraBehaviour : MonoBehaviour
 
     public Transform target;
 
-    private bool followPlayer = false;
+    private bool followPlayer = true;
     private bool zooming = true;
 
     private void Update()
@@ -36,16 +36,22 @@ public class CameraBehaviour : MonoBehaviour
             if (Camera.main.orthographicSize >= 8.9f)
             {
                 zooming = false;
+                Camera.main.orthographicSize = 9;
             }
         }
         else
         {
+            Vector3 pos = new Vector3(target.position.x, target.position.y + 1f, transform.position.z);
+            pos.x = Mathf.Clamp(pos.x, leftBound, rightBound);
+            pos.y = Mathf.Clamp(pos.y, bottomBound, topBound);
+
             Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 4.5f, 0.01f);
-            Camera.main.transform.position = Vector3.Lerp(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -10), new Vector3(target.position.x, target.position.y + 1f, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(target.position.x, target.position.y + 1f, -10)));
+            Camera.main.transform.position = Vector3.Lerp(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -10), new Vector3(pos.x, pos.y, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(pos.x, pos.y, -10)));
 
             if (Camera.main.orthographicSize <= 4.6f)
             {
                 zooming = false;
+                Camera.main.orthographicSize = 4.5f;
             }
         }
     }
