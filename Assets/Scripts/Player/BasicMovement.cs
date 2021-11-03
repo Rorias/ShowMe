@@ -98,7 +98,7 @@ public class BasicMovement : MonoBehaviour
         ContactFilter2D cf2d = new ContactFilter2D();
         List<Collider2D> collisions = new List<Collider2D>();
 
-        grounded = groundCollider.OverlapCollider(cf2d, collisions) > 0;
+        grounded = groundCollider.OverlapCollider(cf2d, collisions) > 1;
 
         if (grounded)
         {

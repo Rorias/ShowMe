@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
 
-public class EraserEraser : MonoBehaviour
+public class RemoveObject : MonoBehaviour
 {
-    private float liveTime = 0.5f;
+    public float liveTime;
 
     private void FixedUpdate()
     {
