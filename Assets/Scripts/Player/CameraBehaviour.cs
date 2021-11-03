@@ -12,7 +12,7 @@ public class CameraBehaviour : MonoBehaviour
 
     public Transform target;
 
-    [HideInInspector] public bool followPlayer = true;
+    [HideInInspector] public bool followPlayer = false;
 
     private void Update()
     {
@@ -31,6 +31,11 @@ public class CameraBehaviour : MonoBehaviour
         {
             Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 9, 0.01f);
             Camera.main.transform.position = Vector3.Lerp(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -10), new Vector3(0, 0, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(0, 0, -10)));
+        }
+        else
+        {
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 4.5f, 0.01f);
+            Camera.main.transform.position = Vector3.Lerp(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -10), new Vector3(target.position.x, target.position.y + 1f, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(target.position.x, target.position.y + 1f, -10)));
         }
     }
 
