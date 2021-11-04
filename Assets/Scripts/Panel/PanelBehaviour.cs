@@ -25,4 +25,13 @@ public class PanelBehaviour : MonoBehaviour
     {
         panelDoor.GetComponent<Animator>().SetBool("Vanish", true);
     }
+
+    public void Close()
+    {
+        SpriteRenderer sr = panelDoor.GetComponent<SpriteRenderer>();
+
+        sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, 255);
+
+        panelDoor.GetComponent<BoxCollider2D>().enabled = true;
+    }
 }

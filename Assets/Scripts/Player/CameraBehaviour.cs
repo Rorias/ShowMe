@@ -88,8 +88,15 @@ public class CameraBehaviour : MonoBehaviour
         target = GameObject.Find("Player").transform;
     }
 
-    public void SetNewBounds()
+    public void SetXBounds(float x)
     {
+        leftBound = x;
+        rightBound = x + 16;
+    }
 
+    public void SetYBounds(float y)
+    {
+        bottomBound = y;
+        topBound = y + 9;
     }
 }
