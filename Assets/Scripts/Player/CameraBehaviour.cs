@@ -47,11 +47,12 @@ public class CameraBehaviour : MonoBehaviour
                 Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 9, 0.05f / (9 - Camera.main.orthographicSize));
                 Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(target.position.x, target.position.y, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(target.position.x, target.position.y, -10)));
 
-                if (Camera.main.orthographicSize >= 8.9f)
+                if (Camera.main.orthographicSize >= 8.9f && Camera.main.orthographicSize < 9f)
                 {
                     zooming = false;
                     Camera.main.orthographicSize = 9;
-
+                    panelManager.activePanel.Open();
+                    panelManager.SetNextPanel();
                 }
             }
             else
@@ -61,9 +62,9 @@ public class CameraBehaviour : MonoBehaviour
                 pos.y = Mathf.Clamp(pos.y, bottomBound, topBound);
 
                 Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 4.5f, 0.05f / (Camera.main.orthographicSize - 4.5f));
-                Camera.main.transform.position = Vector3.Lerp(new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -10), new Vector3(pos.x, pos.y, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(pos.x, pos.y, -10)));
+                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(pos.x, pos.y, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(pos.x, pos.y, -10)));
 
-                if (Camera.main.orthographicSize <= 4.6f)
+                if (Camera.main.orthographicSize <= 4.6f && Camera.main.orthographicSize > 4.5f)
                 {
                     zooming = false;
                     Camera.main.orthographicSize = 4.5f;
@@ -72,12 +73,23 @@ public class CameraBehaviour : MonoBehaviour
         }
     }
 
-    public void ZoomToPanelCenter()
+    public void ZoomOut()
     {
-        zoomDelayTimer = 0.0f;
         followPlayer = false;
         zooming = true;
         target = panelManager.activePanel.transform;
         panelManager.FinishPanel();
+    }
+
+    public void ZoomIn()
+    {
+        followPlayer = true;
+        zooming = true;
+        target = GameObject.Find("Player").transform;
+    }
+
+    public void SetNewBounds()
+    {
+
     }
 }
