@@ -40,6 +40,7 @@ public class BasicMovement : MonoBehaviour
     private void Update()
     {
         CheckGroundCollision();
+        StopMove();
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -58,11 +59,6 @@ public class BasicMovement : MonoBehaviour
         else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             MoveRight();
-        }
-
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            StopMove();
         }
     }
 
@@ -121,7 +117,7 @@ public class BasicMovement : MonoBehaviour
         {
             doubleJumped = true;
             airDashed = false;
-            Instantiate(prefabEraser, new Vector2(transform.position.x, transform.position.y - 1), Quaternion.identity);
+            Instantiate(prefabEraser, new Vector2(transform.position.x, transform.position.y - 0.5f), Quaternion.identity);
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             rb2d.AddForce(new Vector2(0, 700));
         }

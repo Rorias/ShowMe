@@ -9,9 +9,9 @@ public class ActivateObject : MonoBehaviour
     public List<GameObject> objectsToActivate;
     public UnityEvent action = new UnityEvent();
 
-    private void OnCollisionEnter2D(Collision2D _coll)
+    private void OnTriggerEnter2D(Collider2D _coll)
     {
-        if (_coll.gameObject.tag == "Player")
+        if (_coll.CompareTag("Player"))
         {
             for (int i = 0; i < objectsToActivate.Count; i++)
             {
