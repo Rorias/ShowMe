@@ -57,12 +57,8 @@ public class CameraBehaviour : MonoBehaviour
             }
             else
             {
-                Vector3 pos = new Vector3(target.position.x, target.position.y + 1f, transform.position.z);
-                pos.x = Mathf.Clamp(pos.x, leftBound, rightBound);
-                pos.y = Mathf.Clamp(pos.y, bottomBound, topBound);
-
                 Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 4.5f, 0.05f / (Camera.main.orthographicSize - 4.5f));
-                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(pos.x, pos.y, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(pos.x, pos.y, -10)));
+                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(target.position.x, target.position.y, -10), 0.1f / Vector2.Distance(Camera.main.transform.position, new Vector3(target.position.x, target.position.y, -10)));
 
                 if (Camera.main.orthographicSize <= 4.6f && Camera.main.orthographicSize > 4.5f)
                 {

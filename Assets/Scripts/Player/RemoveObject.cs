@@ -4,13 +4,8 @@ public class RemoveObject : MonoBehaviour
 {
     public float liveTime;
 
-    private void FixedUpdate()
+    private void Awake()
     {
-        liveTime -= Time.fixedDeltaTime;
-
-        if (liveTime < 0)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject, liveTime);
     }
 }

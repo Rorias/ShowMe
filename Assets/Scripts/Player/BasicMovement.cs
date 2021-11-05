@@ -7,6 +7,7 @@ using UnityEngine;
 public class BasicMovement : MonoBehaviour
 {
     public GameObject prefabEraser;
+    public GameObject prefabDashGhost;
 
     private Rigidbody2D rb2d;
     private BoxCollider2D groundCollider;
@@ -15,9 +16,9 @@ public class BasicMovement : MonoBehaviour
     public float moveSpeed;
     private float baseMoveSpeed;
 
+    private float prevDashGhostPosX;
     private float dashTimer = 0.0f;
-    private float maxDashTime = 0.25f;
-
+    private float maxDashTime = 0.3f;
     private float dashCooldownTimer = 0.0f;
     public float maxDashCooldownTime;
 
@@ -66,9 +67,10 @@ public class BasicMovement : MonoBehaviour
     {
         if (dashing)
         {
-            dashTimer += Time.fixedDeltaTime;
-
             Dash();
+            SetDashGhost();
+
+            dashTimer += Time.fixedDeltaTime;
 
             if (dashTimer >= maxDashTime)
             {
@@ -89,6 +91,33 @@ public class BasicMovement : MonoBehaviour
         }
     }
 
+    private void SetDashGhost()
+    {
+        if (sprite.flipX)
+        {
+            if (prevDashGhostPosX + (transform.localScale.x / 2) <= transform.position.x)
+            {
+                CreateDashGhost(new Vector2(prevDashGhostPosX + (transform.localScale.x / 2), transform.position.y));
+            }
+        }
+        else
+        {
+            if (prevDashGhostPosX - (transform.localScale.x / 2) >= transform.position.x)
+            {
+                CreateDashGhost(new Vector2(prevDashGhostPosX - (transform.localScale.x / 2), transform.position.y));
+            }
+        }
+    }
+
+    private void CreateDashGhost(Vector2 _pos)
+    {
+        GameObject ghost = Instantiate(prefabDashGhost, _pos, Quaternion.identity);
+        ghost.GetComponent<SpriteRenderer>().flipX = sprite.flipX;
+        prevDashGhostPosX = _pos.x;
+
+        SetDashGhost();
+    }
+
     private void CheckGroundCollision()
     {
         ContactFilter2D cf2d = new ContactFilter2D();
@@ -102,8 +131,6 @@ public class BasicMovement : MonoBehaviour
             doubleJumped = false;
             jumped = false;
         }
-
-        Debug.Log(grounded);
     }
 
     private void Jump()
@@ -116,7 +143,6 @@ public class BasicMovement : MonoBehaviour
         else if (!grounded && !doubleJumped)
         {
             doubleJumped = true;
-            airDashed = false;
             Instantiate(prefabEraser, new Vector2(transform.position.x, transform.position.y - 0.5f), Quaternion.identity);
             rb2d.velocity = new Vector2(rb2d.velocity.x, 0);
             rb2d.AddForce(new Vector2(0, 700));
@@ -129,10 +155,12 @@ public class BasicMovement : MonoBehaviour
         {
             dashing = true;
             moveSpeed *= 2f;
+            prevDashGhostPosX = transform.position.x;
         }
         else if (!grounded && !dashing && !airDashed)
         {
             dashing = true;
+            prevDashGhostPosX = transform.position.x;
             airDashed = true;
             moveSpeed *= 3f;
         }
